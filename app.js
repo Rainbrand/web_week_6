@@ -12,7 +12,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
         })
     }))
 
-    app.get("/sha/:input/", ((req, res) => {
+    app.get("/sha1/:input/", ((req, res) => {
         let sha = crypto.createHash('sha1')
         res.set("Content-Type", "text/plain; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
