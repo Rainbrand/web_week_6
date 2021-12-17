@@ -35,7 +35,20 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
                     .send(str)
             })
         });
+    }))
 
+    app.post("/req/", ((req, res) => {
+        const addr = req.body.toString().replace("addr=", "");
+        http.get(addr, response => {
+            let str = '';
+            response.on('data', (chunk) => {
+                str += chunk;
+            }).on('end', () => {
+                res.set("Content-Type", "text/plain; charset=UTF-8")
+                    .set("Access-Control-Allow-Origin", "*")
+                    .send(str)
+            })
+        });
     }))
 
     app.all('*', (req, res) => {
