@@ -1,5 +1,8 @@
 const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     const app = express()
+    app.use(bodyParser.text());
+    app.use(bodyParser.raw());
+    app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
     app.get("/code/", ((req, res) => {
@@ -21,7 +24,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     }))
 
     app.get("/req/", ((req, res) => {
-        http.get(req.body.addr, response => {
+        http.get(req.query.addr, response => {
             let str = '';
             response.on('data', (chunk) => {
                 str += chunk;
@@ -35,7 +38,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     }))
 
     app.post("/req/", ((req, res) => {
-        const addr = req.body.addr;
+        const addr = req.query.addr || req.body.addr;
         http.get(addr, response => {
             let str = '';
             response.on('data', (chunk) => {
