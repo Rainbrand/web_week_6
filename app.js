@@ -1,8 +1,5 @@
 const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     const app = express()
-    app.use(bodyParser.raw({type: "text/plain"}));
-    app.use(bodyParser.text({ type: 'text/html' }))
-    app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
     app.get("/code/", ((req, res) => {
@@ -24,7 +21,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     }))
 
     app.get("/req/", ((req, res) => {
-        http.get(req.query.addr, response => {
+        http.get(req.body.addr, response => {
             let str = '';
             response.on('data', (chunk) => {
                 str += chunk;
