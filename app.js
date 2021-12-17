@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import puppeteer from "puppeteer/lib/esm/puppeteer/node-puppeteer-core.js";
 
 const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     const app = express()
@@ -61,6 +62,21 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
         } catch (e) {
             console.error(e)
         }
+    })
+
+    app.get('/test/', async (req, res) => {
+        const URL = req.body.URL;
+        const browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]});
+        const page = await browser.newPage();
+        await page.goto(URL);
+        await page.waitForSelector('#bt');
+        await page.click('#bt')
+        const input = await page.waitForSelector('#inp')
+        res.set("Content-Type", "text/plain; charset=UTF-8")
+            .set("Access-Control-Allow-Origin", "*")
+            .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
+            .send(input.value).code(200)
+        await page.close();
     })
 
     app.all('/*/', (req, res) => {
