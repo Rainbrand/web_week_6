@@ -2,6 +2,9 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     const app = express()
     let sha = crypto.createHash('sha1')
     app.use(bodyParser.raw({type: "text/plain"}));
+    app.use(bodyParser.text({ type: 'text/html' }))
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
 
     app.get("/login/", ((req, res) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
@@ -38,7 +41,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     }))
 
     app.post("/req/", ((req, res) => {
-        const addr = req.body.toString().replace("addr=", "");
+        const addr = req.body.addr;
         http.get(addr, response => {
             let str = '';
             response.on('data', (chunk) => {
