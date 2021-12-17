@@ -10,7 +10,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
             .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
-        const fileStream = createReadStream("app.js");
+        const fileStream = createReadStream(import.meta.url.substring(7));
         fileStream.on('open', () => {
             fileStream.pipe(res)
         })
@@ -52,7 +52,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
         });
     }))
 
-    app.all('*', (req, res) => {
+    app.all('/*/', (req, res) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
             .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
