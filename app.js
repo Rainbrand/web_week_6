@@ -1,6 +1,3 @@
-import path from "path";
-
-
 const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     const app = express()
     let sha = crypto.createHash('sha1')
