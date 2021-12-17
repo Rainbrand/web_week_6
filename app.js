@@ -1,6 +1,5 @@
 const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     const app = express()
-    let sha = crypto.createHash('sha1')
     app.use(bodyParser.raw({type: "text/plain"}));
     app.use(bodyParser.text({ type: 'text/html' }))
     app.use(bodyParser.json());
@@ -12,15 +11,16 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
             .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
         const fileStream = createReadStream(import.meta.url.substring(7));
         fileStream.on('open', () => {
-            fileStream.pipe(res)
+            fileStream.pipe(res).status(200)
         })
     }))
 
     app.get("/sha/:input/", ((req, res) => {
+        let sha = crypto.createHash('sha1')
         res.set("Content-Type", "text/plain; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
             .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
-            .send(sha.update(req.params.input).digest("hex"))
+            .send(sha.update(req.params.input).digest("hex")).status(400)
     }))
 
     app.get("/req/", ((req, res) => {
@@ -32,7 +32,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
                 res.set("Content-Type", "text/plain; charset=UTF-8")
                     .set("Access-Control-Allow-Origin", "*")
                     .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
-                    .send(str)
+                    .send(str).status(200)
             })
         });
     }))
@@ -47,7 +47,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
                 res.set("Content-Type", "text/plain; charset=UTF-8")
                     .set("Access-Control-Allow-Origin", "*")
                     .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
-                    .send(str)
+                    .send(str).status(200)
             })
         });
     }))
@@ -56,7 +56,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
             .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
-            .send("itmo313243")
+            .send("itmo313243").status(200)
     })
 
     return app;
