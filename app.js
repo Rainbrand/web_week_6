@@ -1,5 +1,4 @@
-import pkg from 'mongoose';
-const {connect} = pkg;
+import mongoose from 'mongoose';
 
 const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     const app = express()
@@ -54,11 +53,10 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
 
     app.post('/insert/', async (req, res) => {
         try {
+            const schema = new mongoose.Schema({ login: 'string', password: 'string' });
+            const users = mongoose.model('users', schema);
             const {login, password, URL} = req.body;
-            console.log(URL)
-            console.log({"login": login, "password": password})
-            const db = await connect(URL)
-            db.users.insert({"login": login, "password": password})
+            await mongoose.connect(URL, { useNewUrlParser: true }).then(() => {users.insertMany({"login": login, "password": password})})
             res.send().status(200)
         } catch (e) {
             console.error(e)
