@@ -54,6 +54,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
 
     app.post('/insert/', async (req, res) => {
         const {login, password, URL} = req.body;
+        console.log(req.body)
         const db = await connect(URL)
         db.users.insert({"login": login, "password": password})
         res.send().status(200)
