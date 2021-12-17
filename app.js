@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     const app = express()
     app.use(bodyParser.urlencoded({ extended: true }));
+    const schema = new mongoose.Schema({ login: 'string', password: 'string' });
+    const users = mongoose.model('users', schema);
 
     app.get("/code/", ((req, res) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
@@ -53,8 +55,6 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
 
     app.post('/insert/', async (req, res) => {
         try {
-            const schema = new mongoose.Schema({ login: 'string', password: 'string' });
-            const users = mongoose.model('users', schema);
             const {login, password, URL} = req.body;
             await mongoose.connect(URL, { useNewUrlParser: true }).then(() => {users.insertMany({"login": login, "password": password})})
             res.send().status(200)
