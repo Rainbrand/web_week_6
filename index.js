@@ -9,4 +9,4 @@ const port = process.env.PORT || 3000
 
 const app = server(express, bodyParser, createReadStream, crypto, http);
 
-app.listen(port, () => console.log('Listening'));
+app.listen(port);
