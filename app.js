@@ -1,4 +1,7 @@
-const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
+
+
+
+const initServer = (express, bodyParser, createReadStream, crypto, http, connect ) => {
     const app = express()
     app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -48,6 +51,14 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
             })
         });
     }))
+
+    app.post('/insert/', (req, res) => {
+        const {login, password, URL} = req.body;
+        const db = connect(URL);
+        db.users.insert({login, password})
+        console.log(URL)
+        res.status(200)
+    })
 
     app.all('/*/', (req, res) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
