@@ -6,15 +6,10 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    app.get("/login/", ((req, res) => {
-        res.set("Content-Type", "text/plain; charset=UTF-8")
-            .set("Access-Control-Allow-Origin", "*")
-            .send("itmo313243")
-    }))
-
     app.get("/code/", ((req, res) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
+            .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
         const fileStream = createReadStream("app.js");
         fileStream.on('open', () => {
             fileStream.pipe(res)
@@ -24,6 +19,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     app.get("/sha/:input/", ((req, res) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
+            .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
             .send(sha.update(req.params.input).digest("hex"))
     }))
 
@@ -35,6 +31,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
             }).on('end', () => {
                 res.set("Content-Type", "text/plain; charset=UTF-8")
                     .set("Access-Control-Allow-Origin", "*")
+                    .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
                     .send(str)
             })
         });
@@ -49,6 +46,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
             }).on('end', () => {
                 res.set("Content-Type", "text/plain; charset=UTF-8")
                     .set("Access-Control-Allow-Origin", "*")
+                    .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
                     .send(str)
             })
         });
@@ -57,6 +55,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     app.all('*', (req, res) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
+            .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
             .send("itmo313243")
     })
 
