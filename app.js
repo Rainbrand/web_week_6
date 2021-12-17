@@ -47,6 +47,4 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     return app;
 }
 
-
-
 export default initServer;
