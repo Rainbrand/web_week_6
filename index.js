@@ -4,7 +4,9 @@ import {createReadStream} from 'fs';
 import * as crypto from "crypto";
 import * as http from "http";
 import server from "./app.js";
-import {connect} from "mongoose";
+import pkg from 'mongoose';
+const {connect} = pkg;
+
 
 const port = process.env.PORT || 3000
 

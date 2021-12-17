@@ -1,6 +1,3 @@
-
-
-
 const initServer = (express, bodyParser, createReadStream, crypto, http, connect ) => {
     const app = express()
     app.use(bodyParser.urlencoded({ extended: true }));
