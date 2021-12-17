@@ -1,4 +1,7 @@
-const initServer = (express, bodyParser, createReadStream, crypto, http, connect ) => {
+import pkg from 'mongoose';
+const {connect} = pkg;
+
+const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
     const app = express()
     app.use(bodyParser.urlencoded({ extended: true }));
 
