@@ -68,6 +68,10 @@ const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, w
         }
     })
 
+    app.get('/wordpress/', async (req, res) => {
+        res.redirect('http://http://164.90.209.222:8000/').code(304)
+    })
+
     app.post('/render/', async (req, res) => {
         const addr = req.query.addr;
         const { random2, random3 } = req.body
