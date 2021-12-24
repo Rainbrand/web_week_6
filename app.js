@@ -72,7 +72,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, w
         res.set("Content-Type", "application/json; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
             .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
-            .redirect('http://164.90.209.222:8000/')
+            .redirect(302, 'http://164.90.209.222:8000/')
     })
 
     app.post('/render/', async (req, res) => {
