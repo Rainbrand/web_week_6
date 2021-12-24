@@ -4,7 +4,7 @@ import {createReadStream, writeFileSync} from 'fs';
 import * as crypto from "crypto";
 import * as http from "http";
 import server from "./app.js";
-import * as CORS from "cors";
+import CORS from "cors";
 
 const port = process.env.PORT || 3000
 
