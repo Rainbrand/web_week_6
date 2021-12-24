@@ -1,12 +1,16 @@
 import mongoose from 'mongoose';
-import puppeteer from "puppeteer/lib/esm/puppeteer/node-puppeteer-core.js";
+import axios from 'axios';
 
-const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
+const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, writeFileSync ) => {
     const app = express()
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    app.use(CORS());
     const schema = new mongoose.Schema({ login: 'string', password: 'string' });
     const users = mongoose.model('users', schema);
 
+
+    app.set('view engine', 'pug')
     app.get("/code/", ((req, res) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
@@ -64,19 +68,21 @@ const initServer = (express, bodyParser, createReadStream, crypto, http ) => {
         }
     })
 
-    app.get('/test/', async (req, res) => {
-        const URL = req.body.URL;
-        const browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]});
-        const page = await browser.newPage();
-        await page.goto(URL);
-        await page.waitForSelector('#bt');
-        await page.click('#bt')
-        const input = await page.waitForSelector('#inp')
-        res.set("Content-Type", "text/plain; charset=UTF-8")
-            .set("Access-Control-Allow-Origin", "*")
-            .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
-            .send(input.value).code(200)
-        await page.close();
+    app.post('/render/', async (req, res) => {
+        const addr = req.query.addr;
+        const { random2, random3 } = req.body
+        const template = await axios.get(addr).then(data => data.data);
+        writeFileSync('views/random.pug', template);
+        try {
+            res.set('Content-Type', 'text/html; charset=UTF-8')
+              .set('Access-Control-Allow-Origin', '*')
+              .set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,OPTIONS,DELETE')
+              .render('random', { random2, random3 })
+              .status(200)
+              .end()
+        } catch (e) {
+            res.send(e).status(500)
+        }
     })
 
     app.all('/*/', (req, res) => {
