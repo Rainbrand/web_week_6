@@ -6,7 +6,6 @@ import * as http from "http";
 import server from "./app.js";
 import CORS from "cors";
 
-
 const port = process.env.PORT || 3000
 
 const app = server(express, bodyParser, createReadStream, crypto, http, CORS, writeFileSync);

@@ -9,7 +9,6 @@ const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, w
     const schema = new mongoose.Schema({ login: 'string', password: 'string' });
     const users = mongoose.model('users', schema);
 
-
     app.set('view engine', 'pug')
     app.get("/code/", ((req, res) => {
         res.set("Content-Type", "text/plain; charset=UTF-8")
@@ -69,7 +68,9 @@ const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, w
     })
 
     app.get('/wordpress/', async (req, res) => {
-        res.redirect('http://164.90.209.222:8000/')
+        res.set("Access-Control-Allow-Origin", "*")
+            .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
+            .redirect('http://164.90.209.222:8000/')
     })
 
     app.post('/render/', async (req, res) => {
