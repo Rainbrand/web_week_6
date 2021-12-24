@@ -69,7 +69,8 @@ const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, w
     })
 
     app.get('/wordpress/', async (req, res) => {
-        res.set("Access-Control-Allow-Origin", "*")
+        res.set("Content-Type", "application/json; charset=UTF-8")
+            .set("Access-Control-Allow-Origin", "*")
             .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
             .redirect('http://164.90.209.222:8000/')
     })
