@@ -69,7 +69,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, w
     })
 
     app.get('/wordpress/', async (req, res) => {
-        res.status(304).redirect('http://164.90.209.222:8000/')
+        res.redirect('http://164.90.209.222:8000/')
     })
 
     app.post('/render/', async (req, res) => {
