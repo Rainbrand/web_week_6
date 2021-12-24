@@ -81,7 +81,11 @@ const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, w
               .status(200)
               .end()
         } catch (e) {
-            res.send(e).status(500)
+            console.error(e)
+            res.set('Content-Type', 'text/html; charset=UTF-8')
+              .set('Access-Control-Allow-Origin', '*')
+              .set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,OPTIONS,DELETE')
+              .status(500)
         }
     })
 
