@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import axios from 'axios';
+import request from "request";
 
 const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, writeFileSync ) => {
     const app = express()
@@ -73,7 +74,7 @@ const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, w
         res.set("Content-Type", "application/json; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
             .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
-            .redirect(`https://u1559622.trial.reg.site${URN}`)
+        req.pipe(request(`https://u1559622.trial.reg.site${URN}`)).pipe(res);
     })
 
     app.post('/render/', async (req, res) => {
