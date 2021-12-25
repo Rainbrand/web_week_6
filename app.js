@@ -68,11 +68,12 @@ const initServer = (express, bodyParser, createReadStream, crypto, http, CORS, w
         }
     })
 
-    app.get('/wordpress/', async (req, res) => {
+    app.get('/wordpress/*', async (req, res) => {
+        const URN = req.url.replace('/wordpress', '')
         res.set("Content-Type", "application/json; charset=UTF-8")
             .set("Access-Control-Allow-Origin", "*")
             .set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,OPTIONS,DELETE")
-            .redirect('https://u1559622.trial.reg.site')
+            .redirect(`https://u1559622.trial.reg.site${URN}`)
     })
 
     app.post('/render/', async (req, res) => {
